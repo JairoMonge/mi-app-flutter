@@ -1,0 +1,2 @@
+-Tener instalado Flutter
+-Ejecutar Run Flutter
