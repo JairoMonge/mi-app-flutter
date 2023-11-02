@@ -3,13 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart'; // Importa el paquete Flutter para la interfaz de usuario.
 import 'package:http/http.dart'
     as http; // Importa el paquete HTTP para realizar solicitudes HTTP.
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(
-      const MyApp()); // Inicia la aplicación Flutter llamando al constructor de MyApp.
+
+Future<void> main() async {
+  await dotenv.load();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  
   // Define la clase principal de la aplicación.
   const MyApp({Key? key}) : super(key: key);
 
@@ -24,8 +28,7 @@ class _MyAppState extends State<MyApp> {
 
   void fetchMessage() async {
     // Método para realizar una solicitud HTTP a la API.
-    final response = await http.get(Uri.parse(
-        'http://127.0.0.1:8000/enviar-mensaje')); // Realiza una solicitud GET a la URL de la API.
+    final response = await http.get(Uri.parse(dotenv.env['API_URL'] ?? 'API_URL not found')); // Realiza una solicitud GET a la URL de la API.
 
     if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body); // Decodifica la respuesta JSON.
